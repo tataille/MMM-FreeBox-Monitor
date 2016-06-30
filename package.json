@@ -1,0 +1,34 @@
+{
+  "name": "magic-mirror-module-freeboxmonitor",
+  "version": "1.0.0",
+  "description": "A Freebox monitor module for Magic Mirror",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tataille/MMM-FreeBox-Monitor.git"
+  },
+  "keywords": [
+    "magic mirror",
+    "smart mirror",
+	"freebox",
+	"monitor"
+  ],
+  "dependencies": {
+    "request-json": "latest",
+    "imdb-api": "latest",
+    "omdb": "latest",
+	"crypto-js": "latest",
+	"fs": "latest",
+	"underscore": "latest",
+	"moment": "latest"
+    },
+  "author": "Jean-Marc Taillant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tataille/MMM-FreeBox-Monitor/issues"
+  },
+  "homepage": "https://github.com/tataille/MMM-FreeBox-Monitor#readme"
+}
