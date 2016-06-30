@@ -48,6 +48,27 @@ var Freeboxapi = function(ip) {
         }
     };
 	
+	var connectionStatusCallback = function(error, response, body){
+        if (!error) {		
+            var info = JSON.parse(JSON.stringify(body));
+        	if (info.success === true){
+				console.log("ConnectionStatusCallback -> "+ JSON.stringify(body));
+				msg = {
+					value:  info.result,
+					type: "connectionStatus"
+				};
+				fetchCallback(self, msg);
+			}else{				
+				config.challenge = info.result.challenge;
+                openSession(callbackOpenSession);
+			}
+        }
+        else {
+            console.log('Error happened: ' + error);
+        }
+    };
+	
+	
     var callbackCalls = function(error, response, body){
         if (!error) {
 			var info = JSON.parse(JSON.stringify(body));
@@ -272,6 +293,12 @@ var Freeboxapi = function(ip) {
         client.post('/api/v3/login/session/', data, callbackOpenSession);
     };
 	
+	this.getConnectionStatus = function(){
+		  var client = request.createClient(ip);
+        client.headers['X-Fbx-App-Auth'] = config.session_token;
+        client.get('/api/v3/connection/xdsl/', connectionStatusCallback	);
+	};
+	
     this.getCalls = function(){
         var client = request.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
@@ -294,13 +321,3 @@ var Freeboxapi = function(ip) {
 };
 
 module.exports = Freeboxapi;
-/*
-var configuration={ ip: "http://mafreebox.freebox.fr" };
-//var configuration={ ip: "http://88.168.170.201" };
-
-configure(configuration);
-//authorize("fr.testapp",'Test',"0.0.7","Magic Mirror", callback);
-//checkAuthorize("53", callbackCheckAuthorize);
-//getChallenge(callbackGetChallenge);
-//getCalls();
-getDownloads();*/	

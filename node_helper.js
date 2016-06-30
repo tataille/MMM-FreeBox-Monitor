@@ -34,12 +34,13 @@ module.exports = NodeHelper.create({
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
 		if (notification === "GET_CALLS") {
-			//this.createFetcher(payload.feed, payload.config);
 			self.fapi.getCalls();
 			return;
 		}else if (notification === "GET_DOWNLOADS") {
-			//this.createFetcher(payload.feed, payload.config);
 			self.fapi.getDownloads();
+			return;
+		}else if (notification === "GET_CONNECTIONSTATUS") {
+			self.fapi.getConnectionStatus();
 			return;
 		}else if (notification === "CONNECT"){
 				self.fapi.configure(payload.config.ip);
