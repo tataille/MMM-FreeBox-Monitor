@@ -35,104 +35,45 @@ The following properties can be configured:
 	<thead>
 	<tbody>
 		<tr>
-			<td><code>maximumEntries</code></td>
-			<td>The maximum number of events shown.<br>
+			<td><code>maxCallEntries</code></td>
+			<td>The maximum number of missed calls shown.<br>
 				<br><b>Possible values:</b> <code>0</code> - <code>100</code>
-				<br><b>Default value:</b> <code>10</code>
+				<br><b>Default value:</b> <code>3</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code>maximumNumberOfDays</code></td>
-			<td>The maximum number of days in the future.<br>
-				<br><b>Default value:</b> <code>365</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>displaySymbol</code></td>
-			<td>Display a symbol in front of an entry.<br>
+			<td><code>displaySystemData</code></td>
+			<td>Display a system data (Temperature/Download Speed).<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code>defaultSymbol</code></td>
-			<td>The default symbol.<br>
-				<br><b>Possible values:</b> See <a href="http://fontawesome.io/icons/" target="_blank">Font Awsome</a> website.
-				<br><b>Default value:</b> <code>calendar</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>maxTitleLength</code></td>
-			<td>The maximum title length.<br>
-				<br><b>Possible values:</b> <code>10</code> - <code>50</code>
-				<br><b>Default value:</b> <code>25</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>fetchInterval</code></td>
-			<td>How often does the content needs to be fetched? (Milliseconds)<br>
-				<br><b>Possible values:</b> <code>1000</code> - <code>86400000</code>
-				<br><b>Default value:</b> <code>300000</code> (5 minutes)
-			</td>
-		</tr>
-		<tr>
-			<td><code>animationSpeed</code></td>
-			<td>Speed of the update animation. (Milliseconds)<br>
-				<br><b>Possible values:</b><code>0</code> - <code>5000</code>
-				<br><b>Default value:</b> <code>2000</code> (2 seconds)
-			</td>
-		</tr>
-		<tr>
-			<td><code>fade</code></td>
-			<td>Fade the future events to black. (Gradient)<br>
+			<td><code>displayMissedCalls</code></td>
+			<td>Display missed calls table.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
 				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code>fadePoint</code></td>
-			<td>Where to start fade?<br>
-				<br><b>Possible values:</b> <code>0</code> (top of the list) - <code>1</code> (bottom of list)
-				<br><b>Default value:</b> <code>0.25</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>calendars</code></td>
-			<td>The list of calendars.<br>
-				<br><b>Possible values:</b> An array, see <i>calendar configuration</i> below.
-				<br><b>Default value:</b> <i>An example calendar.</i>
-			</td>
-		</tr>
-		<tr>
-			<td><code>titleReplace</code></td>
-			<td>An object of textual replacements applied to the tile of the event. This allow to remove or replace certains words in the title.<br>
-				<br><b>Example:</b> <br>
-
-				<code>
-					titleReplace: {'Birthday of ' : '', 'foo':'bar'}
-				</code>
-			</td>
-		</tr>
-		<tr>
-			<td><code>displayRepeatingCountTitle</code></td>
-			<td>Show count title for yearly repeating events (e.g. "X. Birthday", "X. Anniversary")<br>
+			<td><code>displayDownloads</code></td>
+			<td>Display downloaded files table.<br>
 				<br><b>Possible values:</b> <code>true</code> or <code>false</code>
-				<br><b>Default value:</b> <code>false</code>
+				<br><b>Default value:</b> <code>true</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code>timeFormat</code></td>
-			<td>Display event times as absolute dates, or relative time<br>
-				<br><b>Possible values:</b> <code>absolute</code> or <code>relative</code>
-				<br><b>Default value:</b> <code>relative</code>
+			<td><code>mirrorName</code></td>
+			<td>The mirror name used to identify the mirror on Freebox Server. Useful in case of multiple mirrors.<br>
+				<br><b>Possible values:</b> <code>string</code>
+				<br><b>Default value:</b> <code>My Magic Mirror</code>
 			</td>
 		</tr>
 		<tr>
-			<td><code>urgency</code></td>
-			<td>When using a timeFormat of <code>absolute</code>, the <code>urgency</code> setting allows you to display events within a specific time frame as <code>relative</code>
-			    This allows events within a certain time frame to be displayed as relative (in xx days) while others are displayed as absolute dates<br>
-				<br><b>Possible values:</b> a positive integer representing the number of days for which you want a relative date, for example <code>7</code> (for 7 days)<br>
-				<br><b>Default value:</b> <code>0</code> (disabled)
+			<td><code>requestRefresh</code></td>
+			<td>The refresh interval in seconds to request refrest on Freebox Server.<br>
+				<br><b>Possible values:</b> <code>30</code> - <code>300</code>
+				<br><b>Default value:</b> <code>30</code>
 			</td>
 		</tr>
 	</tbody>
