@@ -86,30 +86,13 @@ The following properties can be configured:
 	</tbody>
 </table>
 
-### Calendar configuration
-
-The `calendars` property contains an array of the configured calendars.
-
-#### Default value:
-````javascript
-config: {
-	calendars: [
-		{
-			url: 'http://www.calendarlabs.com/templates/ical/US-Holidays.ics',
-			symbol: 'calendar',
-		},
-	],
-}
-````
-
-
 #### FreeBox Monitor registration:
 
 The first time the Magic Mirror starts, a request is sent to Freebox Server to register the application. Select "Oui" on LCD display to register the mirror.
 
 ![MMM-FreeBox-Monitor: Registration ](20160630_234117.png)
 
-Once session is opened, a file <code>freebox.txt</code> is created at the root of Magic Mirror installation directory. If you change the configuration for <code>mirrorName</code> or <code>ip</p>, you must delete this file.
+Once session is opened, a file <code>freebox.txt</code> is created at the root of Magic Mirror installation directory. If you change the configuration for <code>mirrorName</code> or <code>ip</code>, you must delete this file.
 
 ## Dependencies
 - installed via `npm install`
