@@ -188,7 +188,7 @@ config: {
 </table>
 
 ## Dependencies
-- installed via `npm install`)
+- installed via `npm install`
 
 The MIT License (MIT)
 =====================
