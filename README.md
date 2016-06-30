@@ -107,7 +107,7 @@ config: {
 
 The first time the Magic Mirror starts, a request is sent to Freebox Server to register the application. Select "Oui" on LCD display to register the mirror.
 
-(20160630_234117.png)
+![MMM-FreeBox-Monitor: Registration ](20160630_234117.png)
 
 Once session is opened, a file <code>freebox.txt</code> is created at the root of Magic Mirror installation directory. If you change the configuration for <code>mirrorName</code> or <code>ip</p>, you must delete this file.
 
