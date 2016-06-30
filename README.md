@@ -13,7 +13,7 @@ modules: [
 		module: 'freebox',
 		position: 'top_left',	// This can be any of the regions. Best results in left or right regions.
 		config: {
-			mirrorName: "myMagicMirror"
+			mirrorName: "My Magic Mirror"
 			// See 'Configuration options' for more information.
 		}
 	}
