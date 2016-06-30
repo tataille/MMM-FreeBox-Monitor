@@ -54,7 +54,7 @@ Module.register("MMM-FreeBox-Monitor",{
 	getDom: function() {
 		if (this.needRefresh){
 			this.wrapper = document.createElement("div");
-			var statusWrapper = document.createElement("div");
+			var statusWrapper = document.createElement("span");
 			statusWrapper.id = "status";
 			var systemWrapper = document.createElement("div");
 			systemWrapper.id = "systemWrapper";
@@ -81,9 +81,9 @@ Module.register("MMM-FreeBox-Monitor",{
 				statusWrapper.innerHTML = this.errorMessage;
 			}else {
 				if (this.connectionStatus!="" && this.config.displaySystemData){
-					text = "&#8657 "+this.connectionStatus.up.maxrate+ " Kb/s &#8659 "+ this.connectionStatus.down.maxrate +" Kb/s";
+					text =  "&#8659 "+ this.connectionStatus.down.maxrate +" Kb/s "+"&#8657 "+this.connectionStatus.up.maxrate+ " Kb/s";
 				statusWrapper.innerHTML = text;
-				statusWrapper.className = "align-right bright max-temp";
+				//statusWrapper.className = "align-right bright max-temp";
 				}
 				if (this.callsTable.length > 0 && this.config.displayMissedCalls){
 					callsHeaderWrapper.innerHTML = "Appels Manqués";
