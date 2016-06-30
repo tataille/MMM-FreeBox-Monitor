@@ -7,8 +7,6 @@
  * MIT Licensed.
  */
 
- 
- 
 Module.register("MMM-FreeBox-Monitor",{
 
 	// Default module config.
@@ -16,11 +14,11 @@ Module.register("MMM-FreeBox-Monitor",{
 		fade: true,
 		fadePoint: 0.25,
 		language: "fr",
-		maxCallEntry: 3,
+		maxCallEntries: 3,
 		displaySystemData: true,
-		displayMissedCalls: false,
+		displayMissedCalls: true,
 		displayDownloads: true,
-		mirorName: "myMirror",
+		mirrorName: "My Magic Mirror",
 		requestRefresh: 30
 	},
 	
@@ -99,8 +97,8 @@ Module.register("MMM-FreeBox-Monitor",{
 				var table = document.createElement("table");
 				table.id= "callsTable";
 				table.className = "small";
-				if ( this.config.maxCallEntry> this.callsTable.length)
-					 this.config.maxCallEntry = this.callsTable.length;				
+				if ( this.config.maxCallEntries> this.callsTable.length)
+					 this.config.maxCallEntries = this.callsTable.length;				
 				for (var mc in this.callsTable) {					
 					var missedCall = this.callsTable[mc];
 					var row = document.createElement("tr");
@@ -331,7 +329,7 @@ Module.register("MMM-FreeBox-Monitor",{
 				self.downloadsTable =JSON.parse(JSON.stringify(payload.value));				
 			}else if ( payload.type === "calls"){			
 				self.callsTable = [];	
-				var newArray = payload.value.slice(0, this.config.maxCallEntry);
+				var newArray = payload.value.slice(0, this.config.maxCallEntries);
 				for (var mc in newArray) {
 					self.callsTable.push(newArray[mc]);
 				}		
