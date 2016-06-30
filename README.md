@@ -1,5 +1,5 @@
 # Module: MMM-FreeBox-Monitor
-The `MMM-FreeBox-Monitor` displays data from your FreeBox V6. It can combine multiple data
+The `MMM-FreeBox-Monitor` displays data from your FreeBox v6 server (Revolution) from the french ISP free. It can combine multiple data
 
 ## Using the module
 
