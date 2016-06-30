@@ -1,5 +1,5 @@
 
-![MMM-FreeBox-Monitor: The module for MagicMirror. ](.github/header.png)
+![MMM-FreeBox-Monitor: The module for MagicMirror. ](2016-06-30_14-34-46.png)
 
 # Module: MMM-FreeBox-Monitor
 The `MMM-FreeBox-Monitor` displays data from your FreeBox v6 server (Revolution) from the french ISP free. It can combine multiple data
