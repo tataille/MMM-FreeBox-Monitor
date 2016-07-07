@@ -36,7 +36,7 @@ The following properties can be configured:
 	<tbody>
 		<tr>
 			<td><code>ip</code></td>
-			<td>The IP address of the FreeBox Server. You can use the internal or external IP address of the FreeBox Server, you can use http://www.myipaddress.com/ service to get it.<br>
+			<td>The IP address of the FreeBox Server. You can use the internal or external IP address of the FreeBox Server, you can use http://www.myipaddress.com/ service to get it. Default FreeBox Server ip is 192.168.0.254.<br>
 				<br><b>Possible values:</b> any IP address
 			</td>
 		</tr>
