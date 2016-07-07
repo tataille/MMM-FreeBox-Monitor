@@ -3,7 +3,7 @@
 
 # Module: MMM-FreeBox-Monitor
 
-This module is intended to be used in [MagicMirror!](https://github.com/MichMich/MagicMirror).
+This module is intended to be used in [MagicMirror²!](https://github.com/MichMich/MagicMirror).
 
 The `MMM-FreeBox-Monitor` displays data from your FreeBox v6 server (Revolution) from the french ISP free. It can combine multiple data
 
