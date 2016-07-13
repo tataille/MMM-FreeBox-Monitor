@@ -16,7 +16,8 @@ modules: [
 		module: 'freebox',
 		position: 'top_left',	// This can be any of the regions. Best results in left or right regions.
 		config: {
-			mirrorName: "My Magic Mirror"
+			mirrorName: "My Magic Mirror",
+			ip: "http://XXX.XXX.XXX.XXX"
 			// See 'Configuration options' for more information.
 		}
 	}
@@ -39,8 +40,8 @@ The following properties can be configured:
 	<tbody>
 		<tr>
 			<td><code>ip</code></td>
-			<td>The IP address of the FreeBox Server. You can use the internal or external IP address of the FreeBox Server, you can use http://www.myipaddress.com/ service to get it. Default FreeBox Server ip is 192.168.0.254.<br>
-				<br><b>Possible values:</b> any IP address
+			<td>The IP address of the FreeBox Server. You can use the internal or external IP address of the FreeBox Server, you can use http://www.myipaddress.com/ service to get it. Default FreeBox Server ip is http://192.168.0.254.<br>
+				<br><b>Possible values:</b> any IP address prefixed by http://
 			</td>
 		</tr>
 	
