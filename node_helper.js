@@ -13,7 +13,7 @@ var fapi;
 module.exports = NodeHelper.create({
 	// Subclass start method.
 	start: function() {
-		self = this;
+		var self = this;
 		self.fapi = new Freeboxapi("..");
 		self.fapi.onError(function(fapi, error) {
 				self.sendSocketNotification("FREEBOX_ERROR", {
@@ -33,6 +33,7 @@ module.exports = NodeHelper.create({
 	// Subclass socketNotificationReceived received.
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
+		console.log("FREEBOX: "+JSON.stringify(notification)+ " " +payload);
 		if (notification === "GET_CALLS") {
 			self.fapi.getCalls();
 			return;
@@ -45,6 +46,7 @@ module.exports = NodeHelper.create({
 		}else if (notification === "CONNECT"){
 				self.fapi.configure(payload.config.ip);
 				self.fapi.authorize("fr.freebox",'Test',"0.0.1","Magic Mirror "+payload.config.mirrorName);
+				return;
 		} 
 			
 	}

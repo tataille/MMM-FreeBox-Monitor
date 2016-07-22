@@ -80,6 +80,8 @@ Module.register("MMM-FreeBox-Monitor",{
 			if (this.errorMessage != ""){
 				statusWrapper.innerHTML = this.errorMessage;
 			}else {
+				console.log("Data to Display: "+this.connectionStatus); 
+				if (this.connectionStatus){
 				if (this.connectionStatus!="" && this.config.displaySystemData){
 					text =  "&#8659 "+ this.connectionStatus.down.maxrate +" Kb/s "+"&#8657 "+this.connectionStatus.up.maxrate+ " Kb/s";
 				statusWrapper.innerHTML = text;
@@ -306,6 +308,7 @@ Module.register("MMM-FreeBox-Monitor",{
 					this.needRefresh = false;
 				}
 				
+			}
 			}
 		}		
 		return this.wrapper;

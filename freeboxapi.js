@@ -21,7 +21,7 @@ var fs = require("fs");
 var _ = require("underscore");
 
 var Freeboxapi = function(ip) {
-	
+	var self = this;	
 	var config = {
 		track_id: "",
 		app_token: "",
@@ -215,7 +215,7 @@ var Freeboxapi = function(ip) {
 	var callbackOpenSession = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
-            console.log("CallbackOpenSession -> "+ info);	            
+            console.log("CallbackOpenSession -> "+ JSON.stringify(info));	            
             if (info.success == true){
                 config.session_token = info.result.session_token;
                 console.log("SESSION_TOKEN: "+config.session_token);
