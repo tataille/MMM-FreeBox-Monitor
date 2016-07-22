@@ -20,10 +20,11 @@
     "request-json": "latest",
     "imdb-api": "latest",
     "omdb": "latest",
-	"crypto-js": "latest",
-	"fs": "latest",
-	"underscore": "latest",
-	"moment": "latest"
+    "crypto-js": "latest",
+    "fs": "latest",
+    "underscore": "latest",
+    "moment": "latest",
+    "parse-torrent-name": "latest"
     },
   "author": "Jean-Marc Taillant",
   "license": "MIT",
