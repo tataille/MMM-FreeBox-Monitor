@@ -234,9 +234,6 @@ Module.register("MMM-FreeBox-Monitor",{
 						bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 						bar.text.style.fontSize = '10px';
 						bar.text.style.color ='#D7DF01';
-						//bar.animate(Math.round(fileDone.rx_pct / 10000));
-
-
 
 						var movieCell = document.createElement("td");
 						movieCell.className = "moviename";
@@ -290,7 +287,6 @@ Module.register("MMM-FreeBox-Monitor",{
 						row.appendChild(pourcentCell);
 						bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 						bar.text.style.fontSize = '10px';
-						
 
 
 
