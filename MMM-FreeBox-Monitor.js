@@ -19,9 +19,10 @@ Module.register("MMM-FreeBox-Monitor",{
 		displayMissedCalls: true,
 		displayDownloads: true,
 		mirrorName: "My Magic Mirror",
-		requestRefresh: 30
+		requestRefresh: 30,
+		freeboxStyle: false
 	},
-	
+
 	start: function() {
 		Log.info("Starting module: " + this.name);
 		this.errorMessage = "";
@@ -33,12 +34,12 @@ Module.register("MMM-FreeBox-Monitor",{
 		var self = this;
 			setInterval(function() {
 			self.updateDom(); // no speed defined, so it updates instantly.
-		}, 5000); 
-		moment.locale(config.language);		
+		}, 5000);
+		moment.locale(config.language);
 		this.sendSocketNotification("CONNECT", {
 				config: this.config
 		});
-		
+
 
 
 	},
@@ -61,11 +62,11 @@ Module.register("MMM-FreeBox-Monitor",{
 			var callsWrapper = document.createElement("div");
 			callsWrapper.id = "calls";
 			var callsHeaderWrapper = document.createElement("div");
-			callsHeaderWrapper.id = "callsheader";		
+			callsHeaderWrapper.id = "callsheader";
 			var downloadsWrapper = document.createElement("div");
 			downloadsWrapper.id = "downloads";
 			var downloadsHeaderWrapper = document.createElement("div");
-			downloadsHeaderWrapper.id = "downloadsHeader";			
+			downloadsHeaderWrapper.id = "downloadsHeader";
 			// Style Wrappers
 			statusWrapper.className = "date normal medium";
 			callsWrapper.className = "date normal medium";
@@ -80,7 +81,7 @@ Module.register("MMM-FreeBox-Monitor",{
 			if (this.errorMessage != ""){
 				statusWrapper.innerHTML = this.errorMessage;
 			}else {
-				console.log("Data to Display: "+this.connectionStatus); 
+				console.log("Data to Display: "+this.connectionStatus);
 				if (this.connectionStatus){
 				if (this.connectionStatus!="" && this.config.displaySystemData){
 					text =  "&#8659 "+ this.connectionStatus.down.maxrate +" Kb/s "+"&#8657 "+this.connectionStatus.up.maxrate+ " Kb/s";
@@ -90,16 +91,16 @@ Module.register("MMM-FreeBox-Monitor",{
 				if (this.callsTable.length > 0 && this.config.displayMissedCalls){
 					callsHeaderWrapper.innerHTML = "Appels Manqués";
 					callsHeaderWrapper.className = "tableheader align-left";
-					/*var calls = document.getElementById("calls");				
-					var child = document.getElementById("callTable"); 
+					/*var calls = document.getElementById("calls");
+					var child = document.getElementById("callTable");
 					if ( child !== null)
 						calls.removeChild(child);*/
 					var table = document.createElement("table");
 					table.id= "callsTable";
 					table.className = "small";
 					if ( this.config.maxCallEntries> this.callsTable.length)
-						 this.config.maxCallEntries = this.callsTable.length;				
-					for (var mc in this.callsTable) {					
+						 this.config.maxCallEntries = this.callsTable.length;
+					for (var mc in this.callsTable) {
 						var missedCall = this.callsTable[mc];
 						var row = document.createElement("tr");
 						table.appendChild(row);
@@ -108,7 +109,7 @@ Module.register("MMM-FreeBox-Monitor",{
 						var date = moment(missedCall.datetime, "X").format("ddd DD HH:mm");
 						dateCell.innerHTML = date;
 						row.appendChild(dateCell);
-						
+
 						var callerCell = document.createElement("td");
 						callerCell.innerHTML = missedCall.name;
 						callerCell.className = "align-right bright max-temp";
@@ -124,9 +125,9 @@ Module.register("MMM-FreeBox-Monitor",{
 								var currentStep = mc - startingPoint;
 								row.style.opacity = 1 - (1 / steps * currentStep);
 							}
-						} 
+						}
 					}
-					callsWrapper.appendChild(table);				
+					callsWrapper.appendChild(table);
 				}
 				if ( this.downloadsTable != "" && this.config.displayDownloads){
 					var cpt=0;
@@ -135,7 +136,7 @@ Module.register("MMM-FreeBox-Monitor",{
 					var desc = document.createElement("table");
 					desc.id= "downloadTable";
 					desc.className = "small";
-			
+
 					for (var d in this.downloadsTable.done) {
 						var fileDone = this.downloadsTable.done[d];
 						var row = document.createElement("tr");
@@ -145,9 +146,9 @@ Module.register("MMM-FreeBox-Monitor",{
 						pcontainer.id="container_"+(cpt++);
 						pcontainer.className = "moviepercent";
 						pourcentCell.appendChild(pcontainer);
-						
+
 						var bar = new ProgressBar.Circle(pcontainer, {
-							color: '#aaa',
+							color: '#D7DF01',
 							// This has to be the same size as the maximum width to
 							// prevent clipping
 							strokeWidth: 4,
@@ -157,8 +158,8 @@ Module.register("MMM-FreeBox-Monitor",{
 							text: {
 								autoStyleContainer: false
 							},
-							from: { color: '#aaa', width: 1 },
-							to: { color: '#333', width: 4 },
+							from: { color: '#D7DF01', width: 1 },
+							to: { color: '#D7DF01', width: 4 },
 							// Set default step function for all animate calls
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
@@ -174,22 +175,22 @@ Module.register("MMM-FreeBox-Monitor",{
 							}
 						});
 						row.appendChild(pourcentCell);
-						
+
 						bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 						bar.text.style.fontSize = '10px';
 						//bar.animate(Math.round(fileDone.rx_pct / 10000));
 						//pourcentCell.innerHTML = Math.round(fileDone.rx_pct / 100);
 						//pourcentCell.className = "align-right bright max-temp";
-						
+
 						var movieCell = document.createElement("td");
-						movieCell.className = "moviename";					
+						movieCell.className = "moviename";
 						movieCell.innerHTML = fileDone.name;
-						row.appendChild(movieCell);	
+						row.appendChild(movieCell);
 
 						var yearCell = document.createElement("td");
-						yearCell.className = "day";					
+						yearCell.className = "day";
 						yearCell.innerHTML = fileDone.year;
-						row.appendChild(yearCell);						
+						row.appendChild(yearCell);
 					}
 					for (var d in this.downloadsTable.seeding) {
 						var fileDone = this.downloadsTable.seeding[d];
@@ -201,9 +202,9 @@ Module.register("MMM-FreeBox-Monitor",{
 						pcontainer.id="container_"+(cpt++);
 						pcontainer.className = "moviepercent";
 						pourcentCell.appendChild(pcontainer);
-						
+
 						var bar = new ProgressBar.Circle(pcontainer, {
-							color: '#aaa',
+							color: '#D7DF01',
 							// This has to be the same size as the maximum width to
 							// prevent clipping
 							strokeWidth: 4,
@@ -211,10 +212,10 @@ Module.register("MMM-FreeBox-Monitor",{
 							easing: 'easeInOut',
 							duration: 2500,
 							text: {
-								autoStyleContainer: false
+								autoStyleContainer: true
 							},
-							from: { color: '#aaa', width: 1 },
-							to: { color: '#333', width: 4 },
+							from: { color: '#D7DF01', width: 1 },
+							to: { color: '#D7DF01', width: 4 },
 							// Set default step function for all animate calls
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
@@ -232,19 +233,20 @@ Module.register("MMM-FreeBox-Monitor",{
 						row.appendChild(pourcentCell);
 						bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 						bar.text.style.fontSize = '10px';
+						bar.text.style.color ='#D7DF01';
 						//bar.animate(Math.round(fileDone.rx_pct / 10000));
 
-						
-						
+
+
 						var movieCell = document.createElement("td");
-						movieCell.className = "moviename";					
+						movieCell.className = "moviename";
 						movieCell.innerHTML = fileDone.name;
-						row.appendChild(movieCell);	
+						row.appendChild(movieCell);
 
 						var yearCell = document.createElement("td");
-						yearCell.className = "day";					
+						yearCell.className = "day";
 						yearCell.innerHTML = fileDone.year;
-						row.appendChild(yearCell);								
+						row.appendChild(yearCell);
 					}
 					//
 					for (var d in this.downloadsTable.downloading) {
@@ -257,9 +259,9 @@ Module.register("MMM-FreeBox-Monitor",{
 						pcontainer.id="container";
 						pcontainer.className = "moviepercent";
 						pourcentCell.appendChild(pcontainer);
-						
+
 						var bar = new ProgressBar.Circle(pcontainer, {
-							color: '#aaa',
+							color: '#D7DF01',
 							// This has to be the same size as the maximum width to
 							// prevent clipping
 							strokeWidth: 4,
@@ -269,8 +271,8 @@ Module.register("MMM-FreeBox-Monitor",{
 							text: {
 								autoStyleContainer: false
 							},
-							from: { color: '#aaa', width: 1 },
-							to: { color: '#333', width: 4 },
+							from: { color: '#D7DF01', width: 1 },
+							to: { color: '#D7DF01', width: 4 },
 							// Set default step function for all animate calls
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
@@ -288,63 +290,63 @@ Module.register("MMM-FreeBox-Monitor",{
 						row.appendChild(pourcentCell);
 						bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 						bar.text.style.fontSize = '10px';
-						bar.animate(Math.round(fileDone.rx_pct / 10000));
 						
-						
-						
+
+
+
 						var movieCell = document.createElement("td");
-						movieCell.className = "moviename";					
+						movieCell.className = "moviename";
 						movieCell.innerHTML = fileDone.name;
-						row.appendChild(movieCell);	
+						row.appendChild(movieCell);
 
 						var yearCell = document.createElement("td");
-						yearCell.className = "day";					
+						yearCell.className = "day";
 						yearCell.innerHTML = fileDone.year;
-						row.appendChild(yearCell);								
+						row.appendChild(yearCell);
 					}
-					
+
 					//
 					downloadsWrapper.appendChild(desc);
 					this.needRefresh = false;
 				}
-				
+
 			}
 			}
-		}		
+		}
 		return this.wrapper;
-		
+
 	},
 	// Override socket notification handler.
-	socketNotificationReceived: function(notification, payload) {		
-		var self = this;				
+	socketNotificationReceived: function(notification, payload) {
+		var self = this;
 		if (notification === "FREEBOX_ERROR") {
-			self.callsTable = [];	
+			self.callsTable = [];
 			self.downloadsTable ="";
 			self.errorMessage = payload.error;
 			self.connectionStatus ="";
 		}else if (notification == "FREEBOX_MSG"){
 			self.errorMessage = "";
-			if ( payload.type === "downloads"){					
+			if ( payload.type === "downloads"){
 				self.downloadsTable ="";
-				self.downloadsTable =JSON.parse(JSON.stringify(payload.value));				
-			}else if ( payload.type === "calls"){			
-				self.callsTable = [];	
+				self.downloadsTable =JSON.parse(JSON.stringify(payload.value));
+			}else if ( payload.type === "calls"){
+				self.callsTable = [];
 				var newArray = payload.value.slice(0, this.config.maxCallEntries);
 				for (var mc in newArray) {
 					self.callsTable.push(newArray[mc]);
-				}		
-			}else if ( payload.type === "connectionStatus"){					
+				}
+			}else if ( payload.type === "connectionStatus"){
 				self.connectionStatus ="";
-				self.connectionStatus =JSON.parse(JSON.stringify(payload.value));				
-			}else if ( payload.type === "connection"){				
+				self.connectionStatus =JSON.parse(JSON.stringify(payload.value));
+			}else if ( payload.type === "connection"){
 				if (payload.value === "Connected"){
 					self.getCalls();
 					self.getDownloads();
 					self.getConnectionStatus();
-					setInterval(function() {self.getCalls();self.getDownloads();self.getConnectionStatus();	}, (this.config.requestRefresh) * 1000);					
+					setInterval(function() {self.getCalls();self.getDownloads();self.getConnectionStatus();	}, (this.config.requestRefresh) * 1000);
 				}
-				
-			}		
+
+			}
 		}
 		self.needRefresh = true;
 	},
@@ -356,11 +358,11 @@ Module.register("MMM-FreeBox-Monitor",{
 	getDownloads: function(){
 		this.sendSocketNotification("GET_DOWNLOADS", {
 				config: this.config
-		});		
+		});
 	},
 	getConnectionStatus: function(){
 		this.sendSocketNotification("GET_CONNECTIONSTATUS", {
 				config: this.config
-		});		
+		});
 	}
 });
