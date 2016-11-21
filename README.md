@@ -13,7 +13,7 @@ To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
 	{
-		module: 'freebox',
+		module: 'MMM-FreeBox-Monitor',
 		position: 'top_left',	// This can be any of the regions. Best results in left or right regions.
 		config: {
 			mirrorName: "My Magic Mirror",
