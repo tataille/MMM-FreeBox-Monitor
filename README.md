@@ -92,6 +92,10 @@ The following properties can be configured:
 
 #### FreeBox Monitor registration:
 
+Before starting the Magic Mirror. Open your Freebox admin page at http://mafreebox.freebox.fr -> "Paramètres de la Freebox" -> "Gestion des accès". Check that "Permettre les nouvelles demandes d'association" is checked
+
+![MMM-FreeBox-Monitor: Application association ](2016-11-23_21-43-40.png)
+
 The first time the Magic Mirror starts, a request is sent to Freebox Server to register the application. Select "Oui" on LCD display to register the mirror.
 
 ![MMM-FreeBox-Monitor: Registration ](20160630_234117.png)
