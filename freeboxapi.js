@@ -36,8 +36,7 @@ var Freeboxapi = function(ip) {
 
 	var authCallback = function(error, response, body){
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));
-            console.log("AuthCallback -> "+ JSON.stringify(body)    );
+            var info = JSON.parse(JSON.stringify(body));            
             config.app_token = info.result.app_token;
             config.track_id = info.result.track_id;
             console.log("APP_TOKEN: "+config.app_token);
@@ -51,8 +50,7 @@ var Freeboxapi = function(ip) {
 	var connectionStatusCallback = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
-        	if (info.success === true){
-				console.log("ConnectionStatusCallback -> "+ JSON.stringify(body));
+        	if (info.success === true){				
 				msg = {
 					value:  info.result,
 					type: "connectionStatus"
@@ -64,7 +62,7 @@ var Freeboxapi = function(ip) {
 			}
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
@@ -73,50 +71,41 @@ var Freeboxapi = function(ip) {
         if (!error) {
 			var info = JSON.parse(JSON.stringify(body));
 			if (info.success === true){
-            var info = JSON.parse(JSON.stringify(body));
-			console.log("CallbackCalls -> "+ JSON.stringify(body));
-            var calls = info.result;
-            var today = new Date();
-            var start = new Date();
-            start.setDate(start.getDate() - 10);
-            start.setHours(0,0,0,0);
-            start = start.getTime()/1000;
-
-            var end = new Date();
-            end.setDate(end.getDate() - 30);
-            end.setHours(23,59,59,000);
-            end = end.getTime()/1000;
-            console.log("date: "+start +" "+end);
-            var filtered = _.where(calls, {type: "missed"});
-            console.log(filtered);
-            // filtered = _.where(filtered, {datetime: 1466341001});
-            console.log("////////////////////////:");
-            //var filtered = _.filter(filtered, function(v) { return  (end >= v.datetime && start <= v.datetime)});
-            console.log(filtered);
-			value = "";
-			if ( filtered.length > 1){
-				value = filtered.length + " missed calls";
-			}else
-				value = filtered.length + " missed call";
-			msg = {
-							value:  filtered,
-							type: "calls"
-						};
-			fetchCallback(self, msg);
+            			var info = JSON.parse(JSON.stringify(body));				
+            			var calls = info.result;
+            			var today = new Date();
+            			var start = new Date();
+            			start.setDate(start.getDate() - 10);
+            			start.setHours(0,0,0,0);
+            			start = start.getTime()/1000;
+				var end = new Date();
+            			end.setDate(end.getDate() - 30);
+            			end.setHours(23,59,59,000);
+            			end = end.getTime()/1000;            			
+            			var filtered = _.where(calls, {type: "missed"});
+  	         		value = "";
+				if ( filtered.length > 1){
+					value = filtered.length + " missed calls";
+				}else
+					value = filtered.length + " missed call";
+				msg = {
+					value:  filtered,
+					type: "calls"
+				};
+				fetchCallback(self, msg);
 			}else{
 				config.challenge = info.result.challenge;
-                openSession(callbackOpenSession);
+                		openSession(callbackOpenSession);
 			}
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
 	var callbackDownloads = function(error, response, body){
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));
-			console.log("CallbackDownloads -> "+ info);
+            var info = JSON.parse(JSON.stringify(body));			
             var downloads = info.result;
             var done = _.where(downloads, {status: "done"});
 			done.forEach( function( item ) {
@@ -165,15 +154,11 @@ var Freeboxapi = function(ip) {
 							value:  files,
 							type: "downloads"
 						};
-			fetchCallback(self, msg);
-            console.log(done);
-            // filtered = _.where(filtered, {datetime: 1466341001});
-            console.log("////////////////////////:");
+			fetchCallback(self, msg);            
             done.forEach( function( item ) {
 				var mov = ptn(item.name);
 				var Re = new RegExp("\\.","g");
-				mov.title = mov.title.replace(Re," ");
-				console.log(mov.title +" "+mov.year);
+				mov.title = mov.title.replace(Re," ");				
 				omdb.get({ title: mov.title, year: mov.year }, true, function(err, movie) {
 					if(err) {
 						return console.error(err);
@@ -182,40 +167,34 @@ var Freeboxapi = function(ip) {
 			});
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
-    var callbackCheckAuthorize = function(error, response, body){
-		console.log("--> "+error);
+    var callbackCheckAuthorize = function(error, response, body){		
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));
-			console.log("CallbackCheckAuthorize -> "+ JSON.stringify(info));
+            var info = JSON.parse(JSON.stringify(body));			
 			if (info.success === false){
 				error = info.msg;
 				fetchFailedCallback(self, error);
 			}else if (info.result.status =='pending'){
-                setTimeout( function(){checkAuthorize(config.track_id, callbackCheckAuthorize)}, 5000);
-            }else if (info.result.status =='granted'){
-				console.log("GRANTED");
-                getChallenge(callbackGetChallenge);
-            }else{
+                		setTimeout( function(){checkAuthorize(config.track_id, callbackCheckAuthorize)}, 5000);
+            		}else if (info.result.status =='granted'){
+				getChallenge(callbackGetChallenge);
+            		}else{
 				error = "Timeout";
 				fetchFailedCallback(self, error);
 			}
-
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
 	var callbackGetChallenge = function(error, response, body){
-        console.log("CALLBACK GET CHALLENGE");
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
-			console.log("CallbackGetChallenge -> "+ info);
-            console.log(info);
+			console.log("CallbackGetChallenge -> "+ info);            
             if (info.success == true){
                 config.challenge = info.result.challenge;
                 setTimeout( function(){openSession(callbackOpenSession)}, 2000);
@@ -223,35 +202,31 @@ var Freeboxapi = function(ip) {
 
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
 	var callbackOpenSession = function(error, response, body){
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));
-            console.log("CallbackOpenSession -> "+ JSON.stringify(info));
+            var info = JSON.parse(JSON.stringify(body));            
             if (info.success == true){
                 config.session_token = info.result.session_token;
-                console.log("SESSION_TOKEN: "+config.session_token);
-				var outputFilename = 'freebox.txt';
-				fs.writeFile(outputFilename, JSON.stringify(config, null, 4), function(err) {
-					if(err) {
-						console.log(err);
-					} else {
-						console.log("JSON saved to " + outputFilename);
-						msg = {
-							value: "Connected",
-							type: "connection"
-						};
-						fetchCallback(self, msg);
-					}
-				});
+                var outputFilename = 'freebox.txt';
+		fs.writeFile(outputFilename, JSON.stringify(config, null, 4), function(err) {
+		if(err) {
+			console.error(err);
+		} else {
+			msg = {
+				value: "Connected",
+				type: "connection"
+			};
+			fetchCallback(self, msg);
+		}
+		});
             }
-
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
@@ -265,13 +240,11 @@ var Freeboxapi = function(ip) {
         };
         var client = request.createClient(ip);
 		try {
-			fs.accessSync("freebox.txt", fs.F_OK);
-			console.log("here");
+			fs.accessSync("freebox.txt", fs.F_OK);			
 			config = JSON.parse(fs.readFileSync('freebox.txt', 'utf8'));
 			console.log(config);
 			//checkAuthorize(config.track_id, callbackCheckAuthorize)
 			getChallenge(callbackGetChallenge);
-			// Do something
 		} catch (e) {
 			// It isn't accessible
 			//not exists
@@ -290,21 +263,15 @@ var Freeboxapi = function(ip) {
     };
 
 
-    var openSession = function(callback){
-        console.log("OPEN SESSION");
+    var openSession = function(callback){        
         var client = request.createClient(ip);
-        //calculate password
         var message = config.challenge;
         var passphrase = config.app_token;
         var signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA1( message, passphrase));
-
-
-        console.log(signature);
         var data = {
             app_id: config.appId,
             password: signature
         };
-        console.log(data);
         client.post('/api/v3/login/session/', data, callbackOpenSession);
     };
 
