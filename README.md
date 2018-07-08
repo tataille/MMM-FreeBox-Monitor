@@ -39,15 +39,15 @@ The following properties can be configured:
 
 #### FreeBox Monitor registration:
 
-Before starting the Magic Mirror. Open your Freebox admin page at http://mafreebox.freebox.fr -> "Paramètres de la Freebox" -> "Gestion des accès". Check that "Permettre les nouvelles demandes d'association" is checked
+Before starting the Magic Mirror. Open your Freebox admin page at [http://mafreebox.freebox.fr](http://mafreebox.freebox.fr) -> _Paramètres de la Freebox_ -> _Gestion des accès_. Check that _Permettre les nouvelles demandes d'association_ is checked.
 
 ![MMM-FreeBox-Monitor: Application association ](2016-11-23_21-43-40.png)
 
-The first time the Magic Mirror starts, a request is sent to Freebox Server to register the application. Select "Oui" on LCD display to register the mirror.
+The first time the Magic Mirror starts, a request is sent to Freebox Server to register the application. Select ``Oui`` on LCD display to register the mirror.
 
 ![MMM-FreeBox-Monitor: Registration ](20160630_234117.png)
 
-Once session is opened, a file <code>freebox.txt</code> is created at the root of Magic Mirror installation directory. If you change the configuration for <code>mirrorName</code> or <code>ip</code>, you must delete this file.
+Once session is opened, a file ``freebox.txt`` is created at the root of Magic Mirror installation directory. If you change the configuration for ``mirrorName`` or ``ip``, you must delete this file.
 
 ## Dependencies
 - installed via `npm install`
