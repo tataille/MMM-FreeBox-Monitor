@@ -1,1 +1,0 @@
-git push --set-upstream https://github.com/tataille/MMM-FreeBox-Monitor.git master
