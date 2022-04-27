@@ -5,10 +5,11 @@
  * MIT Licensed.
  */
 
-
+var NodeHelper = require("node_helper")
 var fs = require("fs");
 var Freeboxapi = require("./freeboxapi.js");
 var fapi;
+
 
 module.exports = NodeHelper.create({
 	// Subclass start method.
