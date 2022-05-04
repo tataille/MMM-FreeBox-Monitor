@@ -4,7 +4,7 @@
 
 ## MagicMirror Module for Freebox V6
 
-![MMM-FreeBox-Monitor: The module for MagicMirror. ](2016-06-30_14-34-46.png)
+![MMM-FreeBox-Monitor: The module for MagicMirror. ](https://github.com/tataille/MMM-FreeBox-Monitor/blob/master/2016-06-30_14-34-46.png)
 
 
 
@@ -46,11 +46,11 @@ The following properties can be configured:
 
 Before starting the Magic Mirror. Open your Freebox admin page at [http://mafreebox.freebox.fr](http://mafreebox.freebox.fr) -> _Paramètres de la Freebox_ -> _Gestion des accès_. Check that _Permettre les nouvelles demandes d'association_ is checked.
 
-![MMM-FreeBox-Monitor: Application association ](2016-11-23_21-43-40.png)
+![MMM-FreeBox-Monitor: Application association ](https://github.com/tataille/MMM-FreeBox-Monitor/blob/master/2016-11-23_21-43-40.png)
 
 The first time the Magic Mirror starts, a request is sent to Freebox Server to register the application. Select ``Oui`` on LCD display to register the mirror.
 
-![MMM-FreeBox-Monitor: Registration ](20160630_234117.png)
+![MMM-FreeBox-Monitor: Registration ](https://github.com/tataille/MMM-FreeBox-Monitor/blob/master/20160630_234117.png)
 
 Once session is opened, a file ``freebox.txt`` is created at the root of Magic Mirror installation directory. If you change the configuration for ``mirrorName`` or ``ip``, you must delete this file.
 
