@@ -1,6 +1,6 @@
 {
   "name": "magic-mirror-module-freeboxmonitor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Freebox monitor module for Magic Mirror",
   "main": "index.js",
   "scripts": {
