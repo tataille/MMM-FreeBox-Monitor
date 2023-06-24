@@ -46,7 +46,7 @@ module.exports = NodeHelper.create({
 			return;
 		}else if (notification === "CONNECT"){
 				self.fapi.configure(payload.config.ip);
-				self.fapi.authorize("fr.freebox",'Test',"0.0.1","Magic Mirror "+payload.config.mirrorName);
+				self.fapi.readFreeboxVersion();
 				return;
 		} 
 			

@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  magicmirror:
+    container_name: mm
+    image: karsten13/magicmirror:v2.23.0_fat
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./mounts/config:/opt/magic_mirror/config
+      - ./mounts/modules:/opt/magic_mirror/modules
+      - ./mounts/css:/opt/magic_mirror/css
+      - ./:/tmp/MMM-FreeBox-Monitor
+      - ./start_script.sh:/opt/magic_mirror/start_script.sh
+    restart: unless-stopped
+    command: 
+      - npm
+      - run
+      - server

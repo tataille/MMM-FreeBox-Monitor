@@ -7,10 +7,11 @@
 
 <a href="https://www.buymeacoffee.com/jeanmarctaz"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a beer&emoji=🍺&slug=jeanmarctaz&button_colour=40DCA5&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
 
-## MagicMirror Module for Freebox V6
+## MagicMirror Module for Freebox Delta
 
 ![MMM-FreeBox-Monitor: The module for MagicMirror. ](https://github.com/tataille/MMM-FreeBox-Monitor/blob/master/2016-06-30_14-34-46.png)
 
+[Freebox API ](http://mafreebox.freebox.fr/doc/index.html)
 
 
 This module is intended to be used in [MagicMirror²!](https://github.com/MichMich/MagicMirror).

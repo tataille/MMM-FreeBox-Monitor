@@ -1,15 +1,5 @@
 /**
  * Created by taillan2 on 24/06/2016.
- */
-    //session token : KZlgIo12ozwAtemTvtbR1pOPEMN4tgwKVjUPpIry/feMGk1pJ7zqHWhOlU2sz3js
-//track_id 53
-//app_token S0K4OcD3qh9YLu02X8uagFEJAjLkTweA6y2OKgevN9jQGSgstJLbSyJFd4CY1EHq
-/*var track_id;
-var app_token = "S0K4OcD3qh9YLu02X8uagFEJAjLkTweA6y2OKgevN9jQGSgstJLbSyJFd4CY1EHq";
-var appId = "fr.testapp";
-var challenge;
-var session_token;
-var _ = require("underscore");
 */
 
 var request = require('request-json');
@@ -21,6 +11,7 @@ var fs = require("fs");
 var _ = require("underscore");
 
 var Freeboxapi = function(ip) {
+	var version = "";
 	var self = this;
 	var config = {
 		track_id: "",
@@ -34,9 +25,28 @@ var Freeboxapi = function(ip) {
         ip = data;
     };
 
+	this.readFreeboxVersion = function(){
+		var client = request.createClient(ip);
+        client.get('/api_version', callbackVersion);
+	}
+
+	var callbackVersion = function(error, response, body){
+		if (!error) {
+            var info = JSON.parse(JSON.stringify(body));            
+            config.version = info.api_version.split('.')[0];
+			console.log('API Version is: '+version);
+			self.authorize("fr.freebox",'Test',"0.0.2","Magic Mirror "+config.mirrorName);
+
+        }
+        else {
+            console.log('VERSION - Error happened: ' + error);
+        }
+	}
+
 	var authCallback = function(error, response, body){
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));            
+            var info = JSON.parse(JSON.stringify(body));
+			console.log(info);            
             config.app_token = info.result.app_token;
             config.track_id = info.result.track_id;
             console.log("APP_TOKEN: "+config.app_token);
@@ -50,6 +60,8 @@ var Freeboxapi = function(ip) {
 	var connectionStatusCallback = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
+			console.log(info)
+
         	if (info.success === true){				
 				msg = {
 					value:  info.result,
@@ -57,6 +69,7 @@ var Freeboxapi = function(ip) {
 				};
 				fetchCallback(self, msg);
 			}else{
+				console.info(info.result);
 				config.challenge = info.result.challenge;
                 openSession(callbackOpenSession);
 			}
@@ -207,6 +220,7 @@ var Freeboxapi = function(ip) {
     };
 
 	var callbackOpenSession = function(error, response, body){
+		console.log(JSON.parse(JSON.stringify(body)))
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));            
             if (info.success == true){
@@ -238,6 +252,7 @@ var Freeboxapi = function(ip) {
             app_version: app_version,
             device_name: device_name
         };
+		console.log("-->"+config.version);
         var client = request.createClient(ip);
 		try {
 			fs.accessSync("freebox.txt", fs.F_OK);			
@@ -248,18 +263,18 @@ var Freeboxapi = function(ip) {
 		} catch (e) {
 			// It isn't accessible
 			//not exists
-			client.post('/api/v3/login/authorize/', data, authCallback);
+			client.post('/api/v'+config.version+'/login/authorize/', data, authCallback);
 		}
     };
 
     var checkAuthorize = function(track_id, callback){
         var client = request.createClient(ip);
-        client.get('/api/v3/login/authorize/'+config.track_id, callback);
+        client.get('/api/v'+config.version+'/login/authorize/'+config.track_id, callback);
     };
 
     var getChallenge = function(callback){
         var client = request.createClient(ip);
-        client.get('/api/v3/login/', callback);
+        client.get('/api/v'+config.version+'/login/', callback);
     };
 
 
@@ -272,25 +287,26 @@ var Freeboxapi = function(ip) {
             app_id: config.appId,
             password: signature
         };
-        client.post('/api/v3/login/session/', data, callbackOpenSession);
+        client.post('/api/v'+config.version+'/login/session/', data, callbackOpenSession);
     };
 
 	this.getConnectionStatus = function(){
 		  var client = request.createClient(ip);
+		  console.log('---->ici')
         client.headers['X-Fbx-App-Auth'] = config.session_token;
-        client.get('/api/v3/connection/xdsl/', connectionStatusCallback	);
+        client.get('/api/v'+config.version+'/connection/ftth/', connectionStatusCallback	);
 	};
 
     this.getCalls = function(){
         var client = request.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
-        client.get('/api/v3/call/log/', callbackCalls);
+        client.get('/api/v'+config.version+'/call/log/', callbackCalls);
     };
 
 	this.getDownloads = function(){
 		var client = request.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
-        client.get('/api/v3/downloads/', callbackDownloads);
+        client.get('/api/v'+config.version+'/downloads/', callbackDownloads);
 	};
 
 	this.onError = function(callback) {
