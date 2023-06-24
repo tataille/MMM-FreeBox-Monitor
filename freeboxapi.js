@@ -83,6 +83,7 @@ var Freeboxapi = function(ip) {
     var callbackCalls = function(error, response, body){
         if (!error) {
 			var info = JSON.parse(JSON.stringify(body));
+			console.log(info);
 			if (info.success === true){
             			var info = JSON.parse(JSON.stringify(body));				
             			var calls = info.result;
