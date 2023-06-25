@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change the upload / download rate display to reflect the correct Freebox connection rates
 - Update `eslint` from `~7.18.0` to `^8.13.0`
 
+### Fixed
+
+- Application name was __undefined__ at permission prompt
 
 ## [1.0.1] - 2022-05-02
 
