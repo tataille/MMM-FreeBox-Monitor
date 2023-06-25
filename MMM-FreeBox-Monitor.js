@@ -156,7 +156,7 @@ Module.register("MMM-FreeBox-Monitor",{
 							},
 							from: { color: '#D7DF01', width: 1 },
 							to: { color: '#D7DF01', width: 4 },
-							// Set default step function for all animate calls
+							// Set default step function for all animate Download
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
 							circle.path.setAttribute('stroke-width', state.width);
@@ -174,10 +174,6 @@ Module.register("MMM-FreeBox-Monitor",{
 
 						bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 						bar.text.style.fontSize = '10px';
-						//bar.animate(Math.round(fileDone.rx_pct / 10000));
-						//pourcentCell.innerHTML = Math.round(fileDone.rx_pct / 100);
-						//pourcentCell.className = "align-right bright max-temp";
-
 						var movieCell = document.createElement("td");
 						movieCell.className = "moviename";
 						movieCell.innerHTML = fileDone.name;
@@ -212,7 +208,7 @@ Module.register("MMM-FreeBox-Monitor",{
 							},
 							from: { color: '#D7DF01', width: 1 },
 							to: { color: '#D7DF01', width: 4 },
-							// Set default step function for all animate calls
+							// Set default step function for all animate download
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
 							circle.path.setAttribute('stroke-width', state.width);
@@ -266,7 +262,7 @@ Module.register("MMM-FreeBox-Monitor",{
 							},
 							from: { color: '#D7DF01', width: 1 },
 							to: { color: '#D7DF01', width: 4 },
-							// Set default step function for all animate calls
+							// Set default step function for all animate download
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
 							circle.path.setAttribute('stroke-width', state.width);
