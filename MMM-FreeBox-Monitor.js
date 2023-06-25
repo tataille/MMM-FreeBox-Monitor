@@ -84,17 +84,13 @@ Module.register("MMM-FreeBox-Monitor",{
 				console.log("Data to Display: "+this.connectionStatus);
 				if (this.connectionStatus){
 				if (this.connectionStatus!="" && this.config.displaySystemData){
-					text =  "&#8659 "+ this.connectionStatus.down.maxrate +" Kb/s "+"&#8657 "+this.connectionStatus.up.maxrate+ " Kb/s";
-				statusWrapper.innerHTML = text;
-				//statusWrapper.className = "align-right bright max-temp";
+					text =  "&#8659 "+ this.formatBytes(this.connectionStatus.rate_down) +"/s "+"&#8657 "+ this.formatBytes(this.connectionStatus.rate_up)+ "/s";
+					statusWrapper.innerHTML = text;
+					statusWrapper.className = "align-right bright max-temp";
 				}
 				if (this.callsTable.length > 0 && this.config.displayMissedCalls){
 					callsHeaderWrapper.innerHTML = "Appels Manqués";
 					callsHeaderWrapper.className = "tableheader align-left";
-					/*var calls = document.getElementById("calls");
-					var child = document.getElementById("callTable");
-					if ( child !== null)
-						calls.removeChild(child);*/
 					var table = document.createElement("table");
 					table.id= "callsTable";
 					table.className = "small";
@@ -345,6 +341,17 @@ Module.register("MMM-FreeBox-Monitor",{
 			}
 		}
 		self.needRefresh = true;
+	},
+	formatBytes: function(bytes, decimals = 2) {
+		if (!+bytes) return '0 Bytes'
+	
+		const k = 1024
+		const dm = decimals < 0 ? 0 : decimals
+		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+	
+		const i = Math.floor(Math.log(bytes) / Math.log(k))
+	
+		return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 	},
 	getCalls: function(){
 		this.sendSocketNotification("GET_CALLS", {

@@ -2,7 +2,7 @@
  * Created by taillan2 on 24/06/2016.
 */
 
-var request = require('request-json');
+var reqjson = require('request-json');
 var ptn = require('parse-torrent-name');
 var imdb = require('imdb-api');
 var omdb = require('omdb');
@@ -12,6 +12,7 @@ var _ = require("underscore");
 
 var Freeboxapi = function(ip) {
 	var version = "";
+	var mirrorName = "";
 	var self = this;
 	var config = {
 		track_id: "",
@@ -22,11 +23,12 @@ var Freeboxapi = function(ip) {
 	};
 
     this.configure =  function(data){
-        ip = data;
+        ip = data.ip;
+		mirrorName = data.mirrorName;
     };
 
 	this.readFreeboxVersion = function(){
-		var client = request.createClient(ip);
+		var client = reqjson.createClient(ip);
         client.get('/api_version', callbackVersion);
 	}
 
@@ -34,34 +36,32 @@ var Freeboxapi = function(ip) {
 		if (!error) {
             var info = JSON.parse(JSON.stringify(body));            
             config.version = info.api_version.split('.')[0];
-			console.log('API Version is: '+version);
-			self.authorize("fr.freebox",'Test',"0.0.2","Magic Mirror "+config.mirrorName);
+			console.debug('API Version is: '+config.version);
+			self.authorize("fr.freebox",'MM Freebox Monitor',"1.0.2",mirrorName);
 
         }
         else {
-            console.log('VERSION - Error happened: ' + error);
+            console.error('VERSION - Error happened: ' + error);
         }
 	}
 
 	var authCallback = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
-			console.log(info);            
+			console.debug(info);            
             config.app_token = info.result.app_token;
             config.track_id = info.result.track_id;
-            console.log("APP_TOKEN: "+config.app_token);
 			checkAuthorize(config.track_id, callbackCheckAuthorize);
         }
         else {
-            console.log('Error happened: ' + error);
+            console.error('Error happened: ' + error);
         }
     };
 
 	var connectionStatusCallback = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
-			console.log(info)
-
+			console.debug(info);
         	if (info.success === true){				
 				msg = {
 					value:  info.result,
@@ -83,7 +83,6 @@ var Freeboxapi = function(ip) {
     var callbackCalls = function(error, response, body){
         if (!error) {
 			var info = JSON.parse(JSON.stringify(body));
-			console.log(info);
 			if (info.success === true){
             			var info = JSON.parse(JSON.stringify(body));				
             			var calls = info.result;
@@ -208,7 +207,7 @@ var Freeboxapi = function(ip) {
 	var callbackGetChallenge = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));
-			console.log("CallbackGetChallenge -> "+ info);            
+			console.debug("CallbackGetChallenge -> "+ info);            
             if (info.success == true){
                 config.challenge = info.result.challenge;
                 setTimeout( function(){openSession(callbackOpenSession)}, 2000);
@@ -221,9 +220,9 @@ var Freeboxapi = function(ip) {
     };
 
 	var callbackOpenSession = function(error, response, body){
-		console.log(JSON.parse(JSON.stringify(body)))
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));            
+            var info = JSON.parse(JSON.stringify(body));    
+			console.debug(info);        
             if (info.success == true){
                 config.session_token = info.result.session_token;
                 var outputFilename = 'freebox.txt';
@@ -253,34 +252,31 @@ var Freeboxapi = function(ip) {
             app_version: app_version,
             device_name: device_name
         };
-		console.log("-->"+config.version);
-        var client = request.createClient(ip);
+        var client = reqjson.createClient(ip);
 		try {
 			fs.accessSync("freebox.txt", fs.F_OK);			
 			config = JSON.parse(fs.readFileSync('freebox.txt', 'utf8'));
-			console.log(config);
-			//checkAuthorize(config.track_id, callbackCheckAuthorize)
+			console.debug(config);
 			getChallenge(callbackGetChallenge);
 		} catch (e) {
 			// It isn't accessible
-			//not exists
 			client.post('/api/v'+config.version+'/login/authorize/', data, authCallback);
 		}
     };
 
     var checkAuthorize = function(track_id, callback){
-        var client = request.createClient(ip);
+        var client = reqjson.createClient(ip);
         client.get('/api/v'+config.version+'/login/authorize/'+config.track_id, callback);
     };
 
     var getChallenge = function(callback){
-        var client = request.createClient(ip);
+        var client = reqjson.createClient(ip);
         client.get('/api/v'+config.version+'/login/', callback);
     };
 
 
     var openSession = function(callback){        
-        var client = request.createClient(ip);
+        var client = reqjson.createClient(ip);
         var message = config.challenge;
         var passphrase = config.app_token;
         var signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA1( message, passphrase));
@@ -292,20 +288,19 @@ var Freeboxapi = function(ip) {
     };
 
 	this.getConnectionStatus = function(){
-		  var client = request.createClient(ip);
-		  console.log('---->ici')
+		var client = reqjson.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
-        client.get('/api/v'+config.version+'/connection/ftth/', connectionStatusCallback	);
+        client.get('/api/v'+config.version+'/connection/', connectionStatusCallback	);
 	};
 
     this.getCalls = function(){
-        var client = request.createClient(ip);
+        var client = reqjson.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
         client.get('/api/v'+config.version+'/call/log/', callbackCalls);
     };
 
 	this.getDownloads = function(){
-		var client = request.createClient(ip);
+		var client = reqjson.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
         client.get('/api/v'+config.version+'/downloads/', callbackDownloads);
 	};

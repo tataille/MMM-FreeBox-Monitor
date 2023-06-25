@@ -1,6 +1,6 @@
 {
   "name": "magic-mirror-module-freeboxmonitor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Freebox monitor module for Magic Mirror",
   "main": "index.js",
   "scripts": {
@@ -13,19 +13,20 @@
   "keywords": [
     "magic mirror",
     "smart mirror",
-	"freebox",
-	"monitor"
+    "freebox",
+    "monitor"
   ],
   "dependencies": {
-    "request-json": "latest",
-    "imdb-api": "latest",
-    "omdb": "latest",
     "crypto-js": "latest",
     "fs": "latest",
-    "underscore": "latest",
+    "imdb-api": "latest",
     "moment": "latest",
-    "parse-torrent-name": "latest"
-    },
+    "omdb": "latest",
+    "parse-torrent-name": "latest",
+    "request": "^2.88.2",
+    "request-json": "^0.6.5",
+    "underscore": "latest"
+  },
   "author": "Jean-Marc Taillant",
   "license": "MIT",
   "bugs": {

@@ -45,7 +45,7 @@ module.exports = NodeHelper.create({
 			self.fapi.getConnectionStatus();
 			return;
 		}else if (notification === "CONNECT"){
-				self.fapi.configure(payload.config.ip);
+				self.fapi.configure(payload.config);
 				self.fapi.readFreeboxVersion();
 				return;
 		} 

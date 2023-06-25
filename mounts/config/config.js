@@ -30,8 +30,8 @@ let config = {
 	httpsPrivateKey: "", 	// HTTPS private key path, only require when useHttps is true
 	httpsCertificate: "", 	// HTTPS Certificate path, only require when useHttps is true
 
-	language: "en",
-	locale: "en-US",
+	language: "fr",
+	locale: "fr-FR",
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
 	timeFormat: 24,
 	units: "metric",
@@ -39,11 +39,11 @@ let config = {
 	modules: [
 		{
 			module: 'MMM-FreeBox-Monitor',
-			position: 'top_left',	// This can be any of the regions. Best results in left or right regions.
+			header: "FREEBOX",
+			position: 'bottom_right',	// This can be any of the regions. Best results in left or right regions.
 			config: {
 				mirrorName: "My Magic Mirror",
-				ip: "http://212.27.38.253",
-				position: "top_left"
+				ip: "http://mafreebox.freebox.fr",
 				// See 'Configuration options' for more information.
 			}
 		},
@@ -53,6 +53,23 @@ let config = {
 		{
 			module: "updatenotification",
 			position: "top_bar"
+		},
+		{
+			module: "clock",
+			position: "top_left"
+		},
+		{
+			module: "calendar",
+			a: "US Holidays",
+			position: "top_left",
+			config: {
+				calendars: [
+					{
+						symbol: "calendar-check",
+						url: "webcal://www.calendarlabs.com/ical-calendar/ics/76/US_Holidays.ics"
+					}
+				]
+			}
 		},
 		{
 			module: "compliments",
