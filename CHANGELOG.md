@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tested on Freebox Delta & Revolution box
 - Docker-compose file added to allow to start a local instance of MagicMirror
 - CHANGELOG Added
+- Change date and caller Id emplacement 
 
 ### Changed features
 

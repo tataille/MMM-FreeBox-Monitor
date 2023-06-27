@@ -84,9 +84,29 @@ Module.register("MMM-FreeBox-Monitor",{
 				console.log("Data to Display: "+this.connectionStatus);
 				if (this.connectionStatus){
 				if (this.connectionStatus!="" && this.config.displaySystemData){
-					text =  "&#8659 "+ this.formatBytes(this.connectionStatus.rate_down) +"/s "+"&#8657 "+ this.formatBytes(this.connectionStatus.rate_up)+ "/s";
-					statusWrapper.innerHTML = text;
-					statusWrapper.className = "align-right bright max-temp";
+					//text =  "&#8659 "+ this.formatBytes(this.connectionStatus.rate_down) +"/s "+"&#8657 "+ this.formatBytes(this.connectionStatus.rate_up)+ "/s";
+					//statusWrapper.innerHTML = text;
+					//statusWrapper.className = "align-right bright max-temp";
+					var statusTable = document.createElement("statusTable");
+					statusTable.id= "statusTable";
+					statusTable.className = "small";
+					var row = document.createElement("tr");
+					statusTable.appendChild(row);
+					var downRateLogoCell = document.createElement("td");
+					downRateLogoCell.className = "fas fa-fw fa-arrow-alt-circle-down align-right";
+					row.appendChild(downRateLogoCell);
+					var downRateCell = document.createElement("td");
+					downRateCell.className = "align-right bright max-temp";
+					downRateCell.innerHTML =this.formatBytes(this.connectionStatus.rate_down) +"/s";
+					row.appendChild(downRateCell);
+					var upRateLogoCell = document.createElement("td");
+					upRateLogoCell.className = "fas fa-fw fa-arrow-alt-circle-up align-right";
+					row.appendChild(upRateLogoCell);
+					var upRateCell = document.createElement("td");
+					upRateCell.className = "align-right bright max-temp";
+					upRateCell.innerHTML =this.formatBytes(this.connectionStatus.rate_up) +"/s";
+					row.appendChild(upRateCell);
+					statusWrapper.appendChild(statusTable);
 				}
 				if (this.callsTable.length > 0 && this.config.displayMissedCalls){
 					callsHeaderWrapper.innerHTML = "Appels Manqués";
@@ -100,16 +120,20 @@ Module.register("MMM-FreeBox-Monitor",{
 						var missedCall = this.callsTable[mc];
 						var row = document.createElement("tr");
 						table.appendChild(row);
+						var logoCell = document.createElement("td");
+						logoCell.className = "fas fa-fw fa-phone-slash align-right";
+						row.appendChild(logoCell);
+						var callerCell = document.createElement("td");
+						callerCell.innerHTML = missedCall.name;
+						callerCell.className = "align-right bright callid";
+						row.appendChild(callerCell);
 						var dateCell = document.createElement("td");
 						dateCell.className = "day";
 						var date = moment(missedCall.datetime, "X").format("ddd DD HH:mm");
 						dateCell.innerHTML = date;
 						row.appendChild(dateCell);
 
-						var callerCell = document.createElement("td");
-						callerCell.innerHTML = missedCall.name;
-						callerCell.className = "align-right bright max-temp";
-						row.appendChild(callerCell);
+						
 
 						if (this.config.fade && this.config.fadePoint < 1) {
 							if (this.config.fadePoint < 0) {
@@ -156,7 +180,7 @@ Module.register("MMM-FreeBox-Monitor",{
 							},
 							from: { color: '#D7DF01', width: 1 },
 							to: { color: '#D7DF01', width: 4 },
-							// Set default step function for all animate Download
+							// Set default step function for all animate calls
 							step: function(state, circle) {
 							circle.path.setAttribute('stroke', state.color);
 							circle.path.setAttribute('stroke-width', state.width);

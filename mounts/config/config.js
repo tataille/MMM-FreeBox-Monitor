@@ -1,6 +1,6 @@
-/* MagicMirror² Config Sample
+/* MagicMirror² Config
  *
- * By Michael Teeuw https://michaelteeuw.nl
+ * By Jean Marc TAILLANT
  * MIT Licensed.
  *
  * For more information on how you can configure this file
@@ -32,7 +32,7 @@ let config = {
 
 	language: "fr",
 	locale: "fr-FR",
-	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
+	logLevel: ["INFO", "LOG", "WARN", "ERROR","DEBUG"],
 	timeFormat: 24,
 	units: "metric",
 
@@ -40,19 +40,14 @@ let config = {
 		{
 			module: 'MMM-FreeBox-Monitor',
 			header: "FREEBOX",
-			position: 'bottom_right',	// This can be any of the regions. Best results in left or right regions.
+			position: 'top_right',	// This can be any of the regions. Best results in left or right regions.
 			config: {
 				mirrorName: "My Magic Mirror",
 				ip: "http://mafreebox.freebox.fr",
+				maxCallEntries: 7,
+				requestRefresh: 10,
 				// See 'Configuration options' for more information.
 			}
-		},
-		{
-			module: "alert",
-		},
-		{
-			module: "updatenotification",
-			position: "top_bar"
 		},
 		{
 			module: "clock",
@@ -66,54 +61,30 @@ let config = {
 				calendars: [
 					{
 						symbol: "calendar-check",
-						url: "webcal://www.calendarlabs.com/ical-calendar/ics/76/US_Holidays.ics"
+						url: "https://www.data.gouv.fr/fr/datasets/r/15366b3e-70ec-4fe5-8ed4-2cd6cf28b38b"
 					}
 				]
 			}
 		},
 		{
 			module: "compliments",
-			position: "lower_third"
-		},
-		{
-			module: "weather",
-			position: "top_right",
+			position: "lower_third",
 			config: {
-				weatherProvider: "openweathermap",
-				type: "current",
-				location: "New York",
-				locationID: "5128581", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
-				apiKey: "YOUR_OPENWEATHER_API_KEY"
+				compliments: {
+					anytime: [
+						"Bonjour!"
+					],
+				}
 			}
 		},
 		{
-			module: "weather",
-			position: "top_right",
-			header: "Weather Forecast",
+			module: "helloworld",
+			position: "bottom_bar", // This can be any of the regions.
 			config: {
-				weatherProvider: "openweathermap",
-				type: "forecast",
-				location: "New York",
-				locationID: "5128581", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
-				apiKey: "YOUR_OPENWEATHER_API_KEY"
-			}
-		},
-		{
-			module: "newsfeed",
-			position: "bottom_bar",
-			config: {
-				feeds: [
-					{
-						title: "New York Times",
-						url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
-					}
-				],
-				showSourceTitle: true,
-				showPublishDate: true,
-				broadcastNewsFeeds: true,
-				broadcastNewsUpdates: true
-			}
-		},
+			  // See 'Configuration options' for more information.
+			  text: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
+			},
+		  },
 	]
 };
 
