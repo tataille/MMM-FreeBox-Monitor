@@ -46,6 +46,8 @@ let config = {
 				ip: "http://mafreebox.freebox.fr",
 				maxCallEntries: 7,
 				requestRefresh: 10,
+				displaySystemData: true,
+				displayFirmware: true,
 				// See 'Configuration options' for more information.
 			}
 		},

@@ -41,13 +41,19 @@ module.exports = NodeHelper.create({
 		}else if (notification === "GET_DOWNLOADS") {
 			self.fapi.getDownloads();
 			return;
+		}else if (notification === "GET_CONNECTED_DEVICES") {
+			self.fapi.getConnectedDevices();
+			return;
 		}else if (notification === "GET_CONNECTIONSTATUS") {
 			self.fapi.getConnectionStatus();
 			return;
+		}else if (notification === "GET_SYSTEMINFO") {
+			self.fapi.getSystemInfo();
+			return;
 		}else if (notification === "CONNECT"){
-				self.fapi.configure(payload.config);
-				self.fapi.readFreeboxVersion();
-				return;
+			self.fapi.configure(payload.config);
+			self.fapi.readFreeboxVersion();
+			return;
 		} 
 			
 	}

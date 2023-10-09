@@ -13,6 +13,9 @@ var _ = require("underscore");
 var Freeboxapi = function(ip) {
 	var version = "";
 	var mirrorName = "";
+	var apsMap = new Map();
+	var nameSize = 10;
+	var apsWithDevices = new Map();
 	var self = this;
 	var config = {
 		track_id: "",
@@ -38,10 +41,29 @@ var Freeboxapi = function(ip) {
             config.version = info.api_version.split('.')[0];
 			console.debug('API Version is: '+config.version);
 			self.authorize("fr.freebox",'MM Freebox Monitor',"1.0.2",mirrorName);
-
         }
         else {
             console.error('VERSION - Error happened: ' + error);
+        }
+	}
+
+	var callbackSystemInfo = function(error, response, body){
+		if (!error) {
+            var info = JSON.parse(JSON.stringify(body));    
+			console.debug(info);                    
+			if (info.success === true){				
+				msg = {
+					value:  info.result,
+					type: "systemInfo"
+				};
+				fetchCallback(self, msg);
+			}else{
+				config.challenge = info.result.challenge;
+                openSession(callbackOpenSession);
+			}
+        }
+        else {
+            console.error('System Info - Error happened: ' + error);
         }
 	}
 
@@ -92,11 +114,11 @@ var Freeboxapi = function(ip) {
             			start.setHours(0,0,0,0);
             			start = start.getTime()/1000;
 				var end = new Date();
-            			end.setDate(end.getDate() - 30);
-            			end.setHours(23,59,59,000);
-            			end = end.getTime()/1000;            			
-            			var filtered = _.where(calls, {type: "missed"});
-  	         		value = "";
+				end.setDate(end.getDate() - 30);
+				end.setHours(23,59,59,00);
+				end = end.getTime()/1000;            			
+				var filtered = _.where(calls, {type: "missed"});
+				value = "";
 				if ( filtered.length > 1){
 					value = filtered.length + " missed calls";
 				}else
@@ -118,71 +140,48 @@ var Freeboxapi = function(ip) {
 
 	var callbackDownloads = function(error, response, body){
         if (!error) {
-            var info = JSON.parse(JSON.stringify(body));			
+            var info = JSON.parse(JSON.stringify(body));	
+			console.debug(info);		
             var downloads = info.result;
             var done = _.where(downloads, {status: "done"});
+			var seeding = _.where(downloads, {status: "seeding"});
+			var downloading = _.where(downloads, {status: "downloading"});
 			done.forEach( function( item ) {
 				var mov = ptn(item.name);
-				var Re = new RegExp("\\.","g");
-				item.name = mov.title.replace(Re," ");
-				if ( mov.year == undefined){
-						item.year = "?";
-				}
-				else {
-					item.year = mov.year;
-				}
+				item.name = trunckName(mov.title, nameSize);
 			});
-
-			var seeding = _.where(downloads, {status: "seeding"});
 			seeding.forEach( function( item ) {
 				var mov = ptn(item.name);
-				var Re = new RegExp("\\.","g");
-				item.name = mov.title.replace(Re," ");
-				if ( mov.year == undefined){
-						item.year = "?";
-				}
-				else {
-					item.year = mov.year;
-				}
+				item.name = trunckName(mov.title, nameSize);
 			});
-			var downloading = _.where(downloads, {status: "downloading"});
 			downloading.forEach( function( item ) {
 				var mov = ptn(item.name);
-				var Re = new RegExp("\\.","g");
-				item.name = mov.title.replace(Re," ");
-				if ( mov.year == undefined){
-						item.year = "?";
-				}
-				else {
-					item.year = mov.year;
-				}
+				item.name = trunckName(mov.title, nameSize);
 			});
-
 			files = {
 				done: done,
 				seeding: seeding,
 				downloading: downloading
 			};
 			msg = {
-							value:  files,
-							type: "downloads"
-						};
+				value:  files,
+				type: "downloads"
+			};
 			fetchCallback(self, msg);            
-            done.forEach( function( item ) {
-				var mov = ptn(item.name);
-				var Re = new RegExp("\\.","g");
-				mov.title = mov.title.replace(Re," ");				
-				omdb.get({ title: mov.title, year: mov.year }, true, function(err, movie) {
-					if(err) {
-						return console.error(err);
-					}
-				});;
-			});
+            
         }
         else {
             console.error('Error happened: ' + error);
         }
     };
+
+	var trunckName = function (name, maxSize) {
+		if (name.length > maxSize) {
+		  return name.slice(0, maxSize) + "...";
+		} else {
+		  return name;
+		}
+	  }
 
     var callbackCheckAuthorize = function(error, response, body){		
         if (!error) {
@@ -219,6 +218,70 @@ var Freeboxapi = function(ip) {
         }
     };
 
+	var apListCallback = function(error, response, body){
+		if (!error) {
+            var info = JSON.parse(JSON.stringify(body));	
+			console.debug(info);		
+            var apList = info.result;
+			for(var i = 0; i < apList.length; i++)
+			{
+				apsMap.set(apList[i].id, apList[i]);
+				apsMap.get(apList[i].id).status = "unknow";
+
+			}
+			apsWithDevices = new Map();
+			apsMap.forEach(function(ap,ap_id, ) {
+				console.debug("Retrieving connected devices for ap "+ap_id+ " "+ ap.name);
+				getApDevices(ap_id);
+			});
+		}
+        else {
+            console.error('Error happened: ' + error);
+        }
+	};
+
+	var getApDevices = function(ap_id){
+		var client = reqjson.createClient(ip);
+        client.headers['X-Fbx-App-Auth'] = config.session_token;
+		//retrieve ap list
+        client.get('/api/v'+config.version+'/wifi/ap/'+ap_id+'/stations', (error, response, body) => {
+			if (!error) {
+				var info = JSON.parse(JSON.stringify(body));	
+				console.debug(info);		
+				var devicesMap = info.result;
+				if (devicesMap) {
+					apsWithDevices.set(apsMap.get(ap_id).name,  devicesMap.length);
+					apsMap.get(ap_id).number = devicesMap.length;
+					console.debug( devicesMap.length +" devices connected on ap "+apsMap.get(ap_id).name);
+				}
+				apsMap.get(ap_id).status = "done";
+				var send = true;
+				apsMap.forEach(function(ap,id, ) {
+					console.log("Checking status for "+id+" "+ap.status);
+					if ( ap.status === "unknow"){
+						send = false;
+					}
+				});
+				
+				if ( send === true) {
+					//var devices  = _.where(downloads, {status: "done"});
+					 msg = {
+						value: JSON.stringify(Object.fromEntries(apsWithDevices))
+						,
+						type: "connectedDevices"
+					};
+					console.debug(msg	);
+					fetchCallback(self, msg);
+				}
+			}
+			else {
+				console.error('Error happened: ' + error);
+			}
+		});
+	};
+
+	
+	
 	var callbackOpenSession = function(error, response, body){
         if (!error) {
             var info = JSON.parse(JSON.stringify(body));    
@@ -287,6 +350,13 @@ var Freeboxapi = function(ip) {
         client.post('/api/v'+config.version+'/login/session/', data, callbackOpenSession);
     };
 
+	this.getConnectedDevices = function(){
+		var client = reqjson.createClient(ip);
+        client.headers['X-Fbx-App-Auth'] = config.session_token;
+		//retrieve ap list
+        client.get('/api/v'+config.version+'/wifi/ap/', apListCallback	);
+	};
+
 	this.getConnectionStatus = function(){
 		var client = reqjson.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
@@ -303,6 +373,12 @@ var Freeboxapi = function(ip) {
 		var client = reqjson.createClient(ip);
         client.headers['X-Fbx-App-Auth'] = config.session_token;
         client.get('/api/v'+config.version+'/downloads/', callbackDownloads);
+	};
+
+	this.getSystemInfo = function(){
+		var client = reqjson.createClient(ip);
+        client.headers['X-Fbx-App-Auth'] = config.session_token;
+        client.get('/api/v'+config.version+'/system/', callbackSystemInfo);
 	};
 
 	this.onError = function(callback) {

@@ -3,12 +3,18 @@
   font-size: 12px;
   font-family: "Roboto Condensed";
   font-weight: 400;
+  padding-top: 10px;
   border-bottom: 1px solid #666;
   line-height: 15px;
   padding-bottom: 5px;
   margin-bottom: 10px;
   color: #fff;
 }
+
+.table {
+  margin-top: 15px;
+}
+
 .moviename {
   text-align: left;
   padding-right: 25px;
@@ -21,11 +27,14 @@
 }
 .calltime {
   text-align: left;
+}
+
+.firmware {
+  text-align: right;
   padding-left: 20px;
 }
 
 .moviepercent {
-  
   width: 40px;
   height: 40px;
   position: relative;

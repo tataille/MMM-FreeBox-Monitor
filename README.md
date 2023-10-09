@@ -43,8 +43,11 @@ The following properties can be configured:
 | --- | --- |
 | `ip` | The IP address of the FreeBox Server. You can use the internal or external IP address of the FreeBox Server, you can use [http://www.myipaddress.com/](http://www.myipaddress.com/) service to get it. Default FreeBox Server ip is [http://192.168.0.254](http://192.168.0.254).<br><br>**Possible values:** any IP address prefixed by _http://_ |
 | `maxCallEntries` | The maximum number of missed calls shown.<br><br>**Possible values:** ``0`` - ``100`` <br>**Default value:** ``3`` |
-| `displaySystemData` | Display missed calls table.<br/><br/> **Possible values:** ``true`` or ``false``<br/>**Default value:** ``true`` |
+| `displayMissedCalls` | Display missed calls table.<br/><br/> **Possible values:** ``true`` or ``false``<br/>**Default value:** ``true`` |
 | `displayDownloads` | Display downloaded files table.<br/><br/> **Possible values:** ``true`` or ``false``<br/>**Default value:** ``true`` |
+| `displaySystemData` | Display System Data.<br/><br/> **Possible values:** ``true`` or ``false``<br/>**Default value:** ``true`` |
+| `displayFirmware` | Display OS Firmware.<br/><br/> **Possible values:** ``true`` or ``false``<br/>**Default value:** ``false`` |
+| `displayConnectedDevices` | Display Total number of connected devices by Wifi Access Point type.<br/><br/> **Possible values:** ``true`` or ``false``<br/>**Default value:** ``false`` |
 | `mirrorName` | The mirror name used to identify the mirror on Freebox Server. Useful in case of multiple mirrors. <br/><br/> **Possible values:** ``string``<br/>**Default value:** ``My Magic Mirror`` |
 | `requestRefresh` | The refresh interval in seconds to request refrest on Freebox Server. <br/><br/> **Possible values:** ``30`` \- ``300``<br/>**Default value:** ``30`` |
 
