@@ -9,7 +9,7 @@
 
 ## MagicMirror Module for Freebox V6
 
-![MMM-FreeBox-Monitor: The module for MagicMirror. ](https://github.com/tataille/MMM-FreeBox-Monitor/blob/master/2016-06-30_14-34-46.png)
+![MMM-FreeBox-Monitor: The module for MagicMirror. ](https://github.com/tataille/MMM-FreeBox-Monitor/blob/revolution/2016-06-30_14-34-46.png)
 
 
 
