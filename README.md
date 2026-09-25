@@ -5,7 +5,8 @@
 [![Issues](https://img.shields.io/github/issues/tataille/MMM-FreeBox-Monitor.svg?style=flat-square)](https://github.com/tataille/MMM-FreeBox-Monitor/issues)
 [![NPM](https://img.shields.io/npm/dm/magic-mirror-module-freeboxmonitor)](https://www.npmjs.com/package/magic-mirror-module-freeboxmonitor)
 
-<a href="https://www.buymeacoffee.com/jeanmarctaz"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a beer&emoji=🍺&slug=jeanmarctaz&button_colour=40DCA5&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jeanmarctaz)
+
 
 ## MagicMirror Module for Freebox V6
 
